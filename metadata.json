@@ -1,0 +1,7 @@
+{
+  "name": "Remix: NIST Student Portal",
+  "description": "A futuristic, production-grade student portal for NIST University featuring an AI multi-modal assistant, exam schedules, sports hub, and internship center.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
