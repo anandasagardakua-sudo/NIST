@@ -209,6 +209,10 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({ student, onShowProfile }) 
   };
 
   const copyToClipboard = (text: string, msgId: string) => {
+    if (!navigator.clipboard || !navigator.clipboard.writeText) {
+      console.warn('Clipboard API unavailable');
+      return;
+    }
     navigator.clipboard.writeText(text);
     setCopiedMsgId(msgId);
     setTimeout(() => setCopiedMsgId(null), 2000);
@@ -321,7 +325,10 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({ student, onShowProfile }) 
           
           const response = await ai.models.generateContent({
             model: 'gemini-3-flash-preview',
-            contents: `Translate the following text to ${langName}. Only provide the translation, no extra text.\n\nText: ${msgToTranslate.text}`,
+            contents: [{
+              role: 'user',
+              parts: [{ text: `Translate the following text to ${langName}. Only provide the translation, no extra text.\n\nText: ${msgToTranslate.text}` }]
+            }]
           });
           
           if (response.text) {
